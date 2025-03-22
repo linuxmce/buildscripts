@@ -45,6 +45,16 @@ case "${flavor}" in
                                 RepositorySource=25
 				Main_Version="2.0.0.48."
                                 ;;
+                        "bionic")
+                                Distro_ID="24"
+                                RepositorySource=25
+				Main_Version="2.0.0.48."
+                                ;;
+                        "jammy")
+                                Distro_ID="27"
+                                RepositorySource=25
+				Main_Version="2.0.0.48."
+                                ;;
                 esac
                 ;;
         "raspbian")
@@ -54,13 +64,23 @@ case "${flavor}" in
                         RepositorySource=23
 			Main_Version="2.0.0.46."
                         ;;
+                        "jessie")
+                        Distro_ID="22"
+                        RepositorySource=23
+			Main_Version="2.0.0.47."
+                        ;;
+                        "buster")
+                        Distro_ID="25"
+                        RepositorySource=23
+			Main_Version="2.0.0.48."
+                        ;;
 		esac
 		;;
 esac
 
 export SNR_CPPFLAGS="$compile_defines"
-export PATH=$PATH:${svn_dir}/${svn_branch_name}/src/bin
-export LD_LIBRARY_PATH="$mkr_dir:${svn_dir}/${svn_branch_name}/src/lib"
+export PATH=$PATH:${scm_dir}/src/bin
+export LD_LIBRARY_PATH="$mkr_dir:${scm_dir}/src/lib"
 
 PLUTO_BUILD_CRED=""
 if [ "$sql_build_host" ] ; then PLUTO_BUILD_CRED="$PLUTO_BUILD_CRED -h $sql_build_host"; fi
@@ -76,15 +96,16 @@ if [ "$sql_build_user" ] ; then MYSQL_BUILD_CRED="$MYSQL_BUILD_CRED -u$sql_build
 if [ "$sql_build_pass" ] ; then MYSQL_BUILD_CRED="$MYSQL_BUILD_CRED -p$sql_build_pass"; fi
 export MYSQL_BUILD_CRED
 
+pushd ${scm_dir}
+GITrevision=$(git log -1 --pretty=oneline | cut -d' ' -f1 | cut -c1-8)
+popd
 
-SVNrevision=$(svn info "$svn_dir/$svn_branch_name/src" |grep ^Revision | cut -d" " -f2)
-# Set version of packages to todays date, plus 00:19 as time, plus the SVNrevision number
-Q="Update Version Set VersionName= concat('${Main_Version}',substr(now()+0,3,6),'$SVNrevision') Where PK_Version = 1;"
+# Set version of packages to todays date, plus 00:00 as time, plus the GITrevision number
+Q="Update Version Set VersionName= concat('$Main_Version',substr(now()+0,1,12),'+$GITrevision') Where PK_Version = 1;"
 mysql $PLUTO_BUILD_CRED -D 'pluto_main_build' -e "$Q"
 
-create_version_h ${svn_dir} ${svn_branch_name} ${Main_Version} $SVNrevision
+create_version_h ${scm_dir} . ${Main_Version} $GITrevision
 
 # Compile the packages
-arch=$arch "${mkr_dir}/MakeRelease" $make_jobs -R "$SVNrevision" $PLUTO_BUILD_CRED -O "$out_dir" -D 'pluto_main_build' -o "$Distro_ID" -r "$RepositorySource" -m 1,1176 -k "$1" -s "${svn_dir}/${svn_branch_name}" -n / -d
-#arch=$arch "${mkr_dir}/MakeRelease" $make_jobs -R "$SVNrevision" $PLUTO_BUILD_CRED -O "$out_dir" -D 'pluto_main_build' -o "$Distro_ID" -r "$RepositorySource" -m 1108 -k "$1" -s "${svn_dir}/${svn_branch_name}" -n / -d
+arch=$arch "${mkr_dir}/MakeRelease" $make_jobs -R "$GITrevision" $PLUTO_BUILD_CRED -O "$out_dir" -D 'pluto_main_build' -o "$Distro_ID" -r "$RepositorySource" -m 1,1176 -k "$1" -s "${scm_dir}" -n / -d
 

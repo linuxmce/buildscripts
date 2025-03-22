@@ -58,28 +58,22 @@ function Precompile
 
 function Build_MakeRelease {
 
-	Precompile pluto_main "${svn_dir}/${svn_branch_name}/src/pluto_main"
-	Precompile PlutoUtils "${svn_dir}/${svn_branch_name}/src/PlutoUtils"
-	Precompile SerializeClass "${svn_dir}/${svn_branch_name}/src/SerializeClass"
-	Precompile LibDCE "${svn_dir}/${svn_branch_name}/src/DCE"
-	Precompile WindowUtils "${svn_dir}/${svn_branch_name}/src/WindowUtils"
-	Precompile MakeRelease "${svn_dir}/${svn_branch_name}/src/MakeRelease"
-	Precompile MakeRelease_PrepFiles "${svn_dir}/${svn_branch_name}/src/MakeRelease_PrepFiles"
+	mkdir -p "${scm_dir}/src/lib"
+
+	Precompile pluto_main "${scm_dir}/src/pluto_main"
+	Precompile PlutoUtils "${scm_dir}/src/PlutoUtils"
+	Precompile SerializeClass "${scm_dir}/src/SerializeClass"
+	Precompile LibDCE "${scm_dir}/src/DCE"
+	Precompile WindowUtils "${scm_dir}/src/WindowUtils"
+	Precompile MakeRelease "${scm_dir}/src/MakeRelease"
+	Precompile MakeRelease_PrepFiles "${scm_dir}/src/MakeRelease_PrepFiles"
 
 	DisplayMessage "Copy MakeRelease files to ${mkr_dir}"
 	mkdir -pv "${mkr_dir}"
 
-	cp -v "${svn_dir}/${svn_branch_name}/src/bin/MakeRelease" "${mkr_dir}"
-	cp -v "${svn_dir}/${svn_branch_name}/src/bin/MakeRelease_PrepFiles" "${mkr_dir}"
-	if [ -e "${svn_dir}/${svn_branch_name}/src/bin/mysql_wrapper" ]
-	then
-		cp -v "${svn_dir}/${svn_branch_name}/src/bin/mysql_wrapper" "${mkr_dir}"
-	fi
-	cp -v "${svn_dir}/${svn_branch_name}/src/lib/"*.so "${mkr_dir}"
-
-#	#TODO: Kill kirill cause i need to copy mysql_wrapper in /usr/pluto/bin
-#	mkdir -pv /usr/pluto/bin
-#	cp -v "${svn_dir}/${svn_branch_name}/src/bin/mysql_wrapper" /usr/pluto/bin
+	cp -v "${scm_dir}/src/bin/MakeRelease" "${mkr_dir}"
+	cp -v "${scm_dir}/src/bin/MakeRelease_PrepFiles" "${mkr_dir}"
+	cp -v "${scm_dir}/src/lib/"*.so "${mkr_dir}"
 
 }
 

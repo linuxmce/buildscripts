@@ -13,22 +13,6 @@ make_jobs=""
 case "${flavor}" in
         "ubuntu")
                 case "${build_name}" in
-                        "gutsy")
-                                Distro_ID="15"
-                                RepositorySource=21
-                                ;;
-                        "hardy")
-                                Distro_ID="16"
-                                RepositorySource=21
-                                ;;
-                        "intrepid")
-                                Distro_ID="17"
-                                RepositorySource=21
-                                ;;
-                        "lucid")
-                                Distro_ID="18"
-                                RepositorySource=21
-                                ;;
                         "precise")
                                 Distro_ID="20"
                                 RepositorySource=25
@@ -49,14 +33,22 @@ case "${flavor}" in
                         Distro_ID="19"
                         RepositorySource=23
                         ;;
+                        "jessie")
+                        Distro_ID="22"
+                        RepositorySource=23
+                        ;;
+                        "buster")
+                        Distro_ID="25"
+                        RepositorySource=23
+                        ;;
                 esac
                 ;;
 esac
 
 export SNR_CPPFLAGS="$compile_defines"
 
-export PATH=$PATH:${svn_dir}/${svn_branch_name}/src/bin
-export LD_LIBRARY_PATH="$mkr_dir:${svn_dir}/${svn_branch_name}/src/lib"
+export PATH=$PATH:${scm_dir}/src/bin
+export LD_LIBRARY_PATH="$mkr_dir:${scm_dir}/src/lib"
 
 set | grep arch
 read
@@ -76,16 +68,16 @@ if [ "$sql_build_user" ] ; then MYSQL_BUILD_CRED="$MYSQL_BUILD_CRED -u$sql_build
 if [ "$sql_build_pass" ] ; then MYSQL_BUILD_CRED="$MYSQL_BUILD_CRED -p$sql_build_pass"; fi
 export MYSQL_BUILD_CRED
 
+pushd ${scm_dir}
+GITrevision=$(git log -1 --pretty=oneline | cut -d' ' -f1 | cut -c1-8)
+popd
 
-SVNrevision=$(svn info "$svn_dir/$svn_branch_name/src" |grep ^Revision | cut -d" " -f2)
-
-if [[ ! -f ${svn_dir}/${svn_branch_name}/src/version.h ]] ||
-   [[ -n $(grep "<=version=>" ${svn_dir}/${svn_branch_name}/src/version.h) ]] ||
-   [[ -n $(grep "<=compile_date=>" ${svn_dir}/${svn_branch_name}/src/version.h) ]] ||
-   [[ -n $(grep "/*SVN_REVISION*/" ${svn_dir}/${svn_branch_name}/src/version.h) ]]; then
-	create_version_h ${svn_dir} ${svn_branch_name} ${Main_Version} $SVNrevision
+if [[ ! -f ${scm_dir}/src/version.h ]] ||
+   [[ -n $(grep "<=version=>" ${scm_dir}/src/version.h) ]] ||
+   [[ -n $(grep "<=compile_date=>" ${scm_dir}/src/version.h) ]] ||
+   [[ -n $(grep "/*SVN_REVISION*/" ${scm_dir}/src/version.h) ]]; then
+	create_version_h ${build_dir} linuxmce ${Main_Version} $GITrevision
 fi
 
 # Compile the packages
-arch=$arch "${mkr_dir}/MakeRelease" $make_jobs -R "$SVNrevision" $PLUTO_BUILD_CRED -O "$out_dir" -D 'pluto_main_build' -o "$Distro_ID" -r "$RepositorySource" -m 1,1176 -k "$1" -s "${svn_dir}/${svn_branch_name}" -n / -d
-#arch=$arch "${mkr_dir}/MakeRelease" $make_jobs -R "$SVNrevision" $PLUTO_BUILD_CRED -O "$out_dir" -D 'pluto_main_build' -o "$Distro_ID" -r "$RepositorySource" -m 1108 -k "$1" -s "${svn_dir}/${svn_branch_name}" -n / -d
+arch=$arch "${mkr_dir}/MakeRelease" $make_jobs -R "$GITrevision" $PLUTO_BUILD_CRED -O "$out_dir" -D 'pluto_main_build' -o "$Distro_ID" -r "$RepositorySource" -m 1,1176 -k "$1" -s "${scm_dir}" -n / -d

@@ -18,7 +18,7 @@ rm *.changes || :
 rm *.upload || :
 popd
 
-"${build_scripts_dir}/checkout-svn.sh"
+"${build_scripts_dir}/clone-git.sh"
 "${build_scripts_dir}/import-win32bins.sh"
 
 "${build_scripts_dir}/build-replacements.sh"
@@ -30,12 +30,9 @@ popd
 
 "${build_scripts_dir}/create-repo.sh"
 
-#"${build_scripts_dir}/cd1-build.sh"
-#"${build_scripts_dir}/cd2-build.sh"
-
 # push stuff into deb
 pushd "$local_mirror_dir"
-dupload --to linuxmce *.changes
+dupload --to linuxmce `ls *.changes | grep -v svdrpservice | grep -v platform | grep -v libcec`
 popd
 
 # Don't dupload twice, these files are copied into $local_mirror_dir during create-repo.sh
@@ -43,5 +40,5 @@ popd
 #dupload --to linuxmce *.changes
 #popd
 
-VERSION=`grep "int g_SvnRevision" /var/lmce-build/svn/trunk/src/version.h | grep -v extern | cut -f2 -d"=" | cut -f1 -d";"`
-wget --no-check-certificate  https://vt100.at/announce.php?text=$build_name\ $arch\ fluffy\ is\ done\ with\ $VERSION -O /dev/null
+VERSION=`grep "g_szSourceRevision" "${scm_dir}/src/version.h" | grep -v extern | cut -f2 -d"=" | cut -f1 -d";"`
+wget --no-check-certificate  https://vt100.at/announce.php?text=$build_name\ $arch\ $(hostname)\ is\ done\ with\ $VERSION -O /dev/null

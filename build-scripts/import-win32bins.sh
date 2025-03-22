@@ -12,14 +12,16 @@ function try_deb() {
 	# create an empty file, if deb doesn't
 	# carry it.
 	file=$1
-	touch $1
-	wget http://deb.linuxmce.org/$1 -O $1 &> /dev/null || : 
+	if [[ ! -f "$1" ]] ; then
+		wget http://deb.linuxmce.org/$1 || touch $1
+	fi
 }
 	
 
 function fake_win32bins() {
-	DisplayMessage "*** STEP: Fake Importing WIN32 binaries"
-	pushd ${svn_dir}/${svn_branch_name}/src/bin
+	mkdir -p ${scm_dir}/src/bin
+	mkdir -p ${scm_dir}/src/lib
+	pushd ${scm_dir}/src/bin
 	try_deb Pluto_S60.sis
 	try_deb Pluto_S60.sisx
 	try_deb Orbiter.CAB
@@ -56,7 +58,7 @@ function fake_win32bins() {
 
 #	wget -q http://hob.dyndns.org/javamo/JavaMO.jar
 #	wget -q http://hob.dyndns.org/javamo/JavaMO.jad
-        cp ${svn_dir}/${svn_branch_name}/src/Orbiter/Maemo/fremantle.install .
+        cp ${scm_dir}/src/Orbiter/Maemo/fremantle.install .
         
 	try_deb JavaMO.jar
 	try_deb JavaMO.jad
@@ -66,11 +68,12 @@ function fake_win32bins() {
 }
 
 function import_win32bins() {
-	pushd ${svn_dir}/${svn_branch_name}/src/bin
+	mkdir -p ${scm_dir}/src/bin
+	pushd ${scm_dir}/src/bin
 	wget --ftp-user="$win32_ftp_user" --ftp-password="$win32_ftp_password" \
 		"$win32_ftp_url"/bin/*
 
-	cp ${svn_dir}/${svn_branch_name}/src/Orbiter/Maemo/fremantle.install .
+	cp ${scm_dir}/src/Orbiter/Maemo/fremantle.install .
 
 	wget -q http://hob.dyndns.org/javamo/JavaMO.jar
 	wget -q http://hob.dyndns.org/javamo/JavaMO.jad
@@ -78,7 +81,7 @@ function import_win32bins() {
 	touch JavaMO.jar
 	touch JavaMO.jad
 
-	pushd ${svn_dir}/${svn_branch_name}/src/lib
+	pushd ${scm_dir}/src/lib
 	wget --ftp-user="$win32_ftp_user" --ftp-password="$win32_ftp_password" \
 		"$win32_ftp_url"/lib/* 
 	
