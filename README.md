@@ -16,11 +16,15 @@ This repository contains scripts for:
 
 - `build-scripts/`: Main build process scripts
 - `common/`: Shared utility and environment scripts
-- `conf-files/`: Configuration files for different Ubuntu releases
+- `conf-files/`: Configuration files for different Ubuntu/Debian releases and architectures
 - `prepare-scripts/`: Scripts to prepare the build environment
 - `build-dvd/`: Scripts for building installation media
 - `vmware-install/`: Scripts for automated installation in VMware
 - `docs/`: Documentation
+
+### Configuration Files
+
+The `conf-files` directory contains configuration files organized by distribution, version, and architecture (e.g., ubuntu-jammy-amd64, raspbian-jessie-armhf). These files define build parameters, package lists, and distribution-specific settings used by the build system to create consistent builds across different Ubuntu/Debian versions. For detailed information, see [Configuration Files Documentation](docs/conf_files.md).
 
 ## Key Scripts
 
