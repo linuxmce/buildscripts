@@ -11,7 +11,7 @@ echo "*** Running: $0"
 echo "********************************************************************************"
 
 # Install packages
-apt-get -q -f -y install `cat $lmce_build_conf_dir/build-packages`
+DEBIAN_FRONTEND=noninteractive apt-get -q -f -y install `cat $lmce_build_conf_dir/build-packages`
 
 export KVER=$(ls -vd /lib/modules/[0-9]* | sed 's/.*\///g' | tail -1)
 export KVER_SHORT=$(echo $KVER | cut -d'-' -f1)
