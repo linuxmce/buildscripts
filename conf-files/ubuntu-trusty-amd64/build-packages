@@ -123,7 +123,6 @@ patch
 po4a
 quilt
 ruby-dev
-ruby1.9.1-dev
 sgmltools-lite
 sharutils
 squashfs-tools

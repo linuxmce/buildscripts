@@ -124,7 +124,7 @@ nasm
 patch
 po4a
 quilt
-ruby1.8-dev
+ruby-dev
 sgmltools-lite
 sharutils
 squashfs-tools
@@ -197,7 +197,6 @@ libpq-dev
 libv4l-dev
 rsync
 portaudio19-dev
-python-support
 dh-exec
 bash-completion
 bison
@@ -233,7 +232,7 @@ libola-dev
 libgdbm-dev
 libgoogle-perftools-dev
 dh-systemd 
-libsystemd-daemon-dev
+libsystemd-dev
 libcec-platform-dev
 libbluray-dev 
 freeglut3-dev
