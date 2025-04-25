@@ -90,6 +90,14 @@ function build_main_debs() {
 					Distro_ID="23"
 					RepositorySource=25
 					Main_Version='2.0.0.48.'
+
+					#should be building but not...??
+					exclude_list=$exclude_list,307,335 # Generic Serial Device - ruby 1.8 no longer available ???
+					exclude_list=$exclude_list,498,499 # Simplephone - needs TLC, domain field added to auth calls, and more ???
+					exclude_list=$exclude_list,505,506 # Pluto ZWave - change in namespace fixed for jammy - maybe messed up xenial? or trusty?
+					exclude_list=$exclude_list,772,773 # EIB - missing lib from replacements
+
+					#definitely not building
 					exclude_list=$exclude_list,673,674 # lmce game player - fails to build
 					exclude_list=$exclude_list,682,683 # mame - fails to build
 					exclude_list=$exclude_list,879,881 # qorbiter android - no sdk/ndk

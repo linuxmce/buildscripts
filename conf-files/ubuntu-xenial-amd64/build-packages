@@ -244,3 +244,7 @@ libtool-bin
 libdirectfb-dev libvcdinfo-dev librsvg2-bin libmagick-dev
 libjson-perl
 libdbd-mysql-perl
+vdpau-va-driver
+gcc-4.8
+libgd-dev
+libqhttpserver-dev

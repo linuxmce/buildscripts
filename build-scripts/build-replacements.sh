@@ -341,6 +341,14 @@ function Build_Replacements_ubuntu_trusty
 	#Package: vdr-streamdev
 	Build_Replacement_Package streamdev external/vdr/vdr-plugin-streamdev-d66c635a80b312e2e7277a8fe10f500b05317acd
 
+	#Package: platform for libcec
+	Build_Replacement_Package platform ubuntu/platform-1.0.10
+	dpkg -i ${replacements_dir}/libplatform1.deb
+
+	#Package: libcec
+	Build_Replacement_Package cec ubuntu/libcec-3.0.1
+	dpkg -i ${replacements_dir}/libcec3*.deb ${replacements_dir}/libcec-dev*.deb
+
 	#Package: vdr-xineliboutput
 	Build_Replacement_Package xineliboutput external/vdr/xineliboutput-fd21e7a0936b984e76eb01c308ccc5a811c68918
 	cp ${scm_dir}/external/vdr/*xine*.deb "${replacements_dir}"
@@ -348,11 +356,13 @@ function Build_Replacements_ubuntu_trusty
 	#Package: vdr-iptv
 	Build_Replacement_Package iptv external/vdr/iptv-2.2.1
 
+
+# error
 	# softhddevice is build for Intel architecture.
-	if [[ "$arch" != "armhf" ]]; then  
-		#Package: vdr-plugin-softhddevice
-		Build_Replacement_Package softhddevice external/vdr/vdr-plugin-softhddevice-0.6.1rc1.git20150630.0812
-	fi
+#	if [[ "$arch" != "armhf" ]]; then  
+#		#Package: vdr-plugin-softhddevice
+#		Build_Replacement_Package softhddevice external/vdr/vdr-plugin-softhddevice-0.6.1rc1.git20150630.0812
+#	fi
 
 	#Package: vdr-plugin-xmltv2vdr
 	Build_Replacement_Package vdr-plugin-xmltv2vdr external/vdr/vdr-plugin-xmltv2vdr-0.2.0pre.git20140902
@@ -386,12 +396,6 @@ function Build_Replacements_ubuntu_trusty
 	#Package: lirc
 	build_opts="" Build_Replacement_Package lirc ubuntu/lirc-0.9.0-0ubuntu1+lmce1
 
-	#Package: platform for libcec
-	Build_Replacement_Package platform ubuntu/platform-1.0.10
-
-	#Package: libcec
-	Build_Replacement_Package cec ubuntu/libcec-3.0.1
-
 	# shairport (AirPlay Audio)
 	Build_Replacement_Package shairport ubuntu/shairport-0.05
 
@@ -422,16 +426,16 @@ function Build_Replacements_ubuntu_trusty
 	# mythtv
 	Build_Replacement_Package myth ubuntu/mythtv-0.27.5+fixes.20150921.fbd5ef3
 
-	# ZFS
-	Build_Replacement_Package mountall ubuntu/mountall-2.53
-	Build_Replacement_Package spl ubuntu/spl-linux-0.6.5.9
-	Build_Replacement_Package ubuntu-zfs ubuntu/ubuntu-zfs-8~trusty
-	Build_Replacement_Package zfs-auto-snapshot ubuntu/zfs-auto-snapshot-1.1.0
-	## ZFS has a few non-zfs named subpackages, grrr. Is there a better way to handle this?
-	Build_Replacement_Package zfs ubuntu/zfs-linux-0.6.5.9
-	Build_Replacement_Package libzpool ubuntu/zfs-linux-0.6.5.9
-	Build_Replacement_Package libuutil ubuntu/zfs-linux-0.6.5.9
-	Build_Replacement_Package libnvpair ubuntu/zfs-linux-0.6.5.9
+#	# ZFS
+#	Build_Replacement_Package mountall ubuntu/mountall-2.53
+#	Build_Replacement_Package spl ubuntu/spl-linux-0.6.5.9
+#	Build_Replacement_Package ubuntu-zfs ubuntu/ubuntu-zfs-8~trusty
+#	Build_Replacement_Package zfs-auto-snapshot ubuntu/zfs-auto-snapshot-1.1.0
+#	## ZFS has a few non-zfs named subpackages, grrr. Is there a better way to handle this?
+#	Build_Replacement_Package zfs ubuntu/zfs-linux-0.6.5.9
+#	Build_Replacement_Package libzpool ubuntu/zfs-linux-0.6.5.9
+#	Build_Replacement_Package libuutil ubuntu/zfs-linux-0.6.5.9
+#	Build_Replacement_Package libnvpair ubuntu/zfs-linux-0.6.5.9
 }
 
 function Build_Replacements_ubuntu_xenial
@@ -449,11 +453,13 @@ function Build_Replacements_ubuntu_xenial
 	#Package: lirc
 	build_opts="" Build_Replacement_Package lirc ubuntu/lirc-0.9.0-0ubuntu1+lmce1
 
-	Build_Replacement_Package vdrnfofs ubuntu/vdrnfofs-0.5
+# build fail missing package 'python-support' required for build.
+	#Build_Replacement_Package vdrnfofs ubuntu/vdrnfofs-0.5
 
-	#Package: vdr-2.2.0
-	Build_Replacement_Package vdr external/vdr/vdr-2.2.0
-	dpkg -i ${scm_dir}/external/vdr/vdr-dev_*deb
+# build fail missing package 'libsystemd-daemon-dev' required for build. renamed 'libsystemd-dev' -- vdr needs update
+	##Package: vdr-2.2.0
+	#Build_Replacement_Package vdr external/vdr/vdr-2.2.0
+	#dpkg -i ${scm_dir}/external/vdr/vdr-dev_*deb
 
 	#Package: vdr-plugin-svdrpservice is needed by remotetimers
 	Build_Replacement_Package vdr-plugin-svdrpservice external/vdr/vdr-plugin-svdrpservice-1.0.0
@@ -472,11 +478,12 @@ function Build_Replacements_ubuntu_xenial
 	#Package: vdr-iptv
 	Build_Replacement_Package iptv external/vdr/iptv-2.2.1
 
-	# softhddevice is build for Intel architecture.
-	if [[ "$arch" != "armhf" ]]; then  
-		#Package: vdr-plugin-softhddevice
-		Build_Replacement_Package softhddevice external/vdr/vdr-plugin-softhddevice-0.6.1rc1.git20150630.0812
-	fi
+# build fail missing vdr dependency?? from vdr-2.2.0 -- maybe need more than just vdr-dev installed??
+	## softhddevice is build for Intel architecture.
+	#if [[ "$arch" != "armhf" ]]; then  
+	#	#Package: vdr-plugin-softhddevice
+	#	Build_Replacement_Package softhddevice external/vdr/vdr-plugin-softhddevice-0.6.1rc1.git20150630.0812
+	#fi
 
 	#Package: vdr-plugin-xmltv2vdr
 	Build_Replacement_Package vdr-plugin-xmltv2vdr external/vdr/vdr-plugin-xmltv2vdr-0.2.0pre.git20140902
