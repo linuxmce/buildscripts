@@ -8,9 +8,6 @@
 set -e
 set -x
 
-BUILD_ALL_PKGS="no"
-#BUILD_ALL_PKGS="yes"
-
 build_opts="-tc"
 make_jobs=""
 ver_split="~"
@@ -159,8 +156,8 @@ function Build_Replacements_Common_ubuntu
 #	Build_Replacement_Package lmce-asterisk src/lmce-asterisk
 
 	# qhttpserver (for LinuxMCE NVR)
-#	Build_Replacement_Package qhttpserver external/qhttpserver
-#	dpkg -i ${scm_dir}/external/libqhttpserver*.deb
+	Build_Replacement_Package qhttpserver external/qhttpserver
+	dpkg -i ${scm_dir}/external/libqhttpserver*.deb
 
 	##Package: raspi2png
 #	#if [[ "$arch" == "armhf" ]]; then
