@@ -162,9 +162,15 @@ libtalloc-dev
 chrpath
 libxml++2.6-dev
 libao-dev
-libxcb-dpms0-dev libxcb-screensaver0-dev libxcb-image0-dev libxcb-util0-dev
-libxcb-icccm4-dev libxcb-keysyms1-dev libxcb-ewmh-dev
-libzip-dev libsqlite3-dev
+libxcb-dpms0-dev
+libxcb-screensaver0-dev
+libxcb-image0-dev
+libxcb-util0-dev
+libxcb-icccm4-dev
+libxcb-keysyms1-dev
+libxcb-ewmh-dev
+libzip-dev
+libsqlite3-dev
 dh-autoreconf
 libnih-dev 
 libnih-dbus-dev 
@@ -261,4 +267,6 @@ libsdl2-image-dev
 libqjson-dev
 qtchooser
 qt5-default
+libxine2-dev
+libxine2-bin
 
