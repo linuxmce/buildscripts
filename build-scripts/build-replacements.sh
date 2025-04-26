@@ -106,28 +106,28 @@ function Build_Replacements_Common_ubuntu
 	dpkg -i ${scm_dir}/external/libdvdid*.deb
 
 	#Package: pthsem for bcusdk
-#	pushd 	${scm_dir}/external/pthsem-2.0.8
-#	autoreconf -i
-#	popd
-#	make_jobs="" Build_Replacement_Package pthsem external/pthsem-2.0.8
-#	dpkg -i ${scm_dir}/external/libpthsem-dev_*.deb ${scm_dir}/external/libpthsem20_*.deb
+	pushd 	${scm_dir}/external/pthsem-2.0.8
+	autoreconf -i
+	popd
+	make_jobs="" Build_Replacement_Package pthsem external/pthsem-2.0.8
+	dpkg -i ${scm_dir}/external/libpthsem-dev_*.deb ${scm_dir}/external/libpthsem20_*.deb
 
 	#Package: bcusdk (eib)
-#	Build_Replacement_Package bcusdk external/bcusdk-0.0.5
-#	dpkg -i ${scm_dir}/external/libeibclient*.deb
+	Build_Replacement_Package eib external/bcusdk-0.0.5
+	dpkg -i ${scm_dir}/external/libeibclient*.deb
 #	cp -fr ${scm_dir}/external/*eib*.deb ${replacements_dir}
 
 	#Package: mbrola
-#	Build_Replacement_Package mbrola ubuntu/mbrola-3.01h+1
+	Build_Replacement_Package mbrola ubuntu/mbrola-3.01h+1
 
 	#Package: motion
 #	Build_Replacement_Package motion ubuntu/motion-3.2.12+git20150610
 
 	#Package: lmce-core-locator
-#	Build_Replacement_Package core-locator src/Core/locator
+	Build_Replacement_Package core-locator src/Core/locator
 
 	#Package: tee-pluto
-#	Build_Replacement_Package tee-pluto misc_utils/tee-pluto
+	Build_Replacement_Package tee-pluto misc_utils/tee-pluto
 
 	#Package: pluto-asterisk
 ##	dir_="${scm_dir}/ubuntu/asterisk"
@@ -147,22 +147,22 @@ function Build_Replacements_Common_ubuntu
 ##	fi
 
 	#Package: lirc-pluto
-#	Build_Replacement_Package lirc-pluto ubuntu/lirc-pluto-0.1
+	Build_Replacement_Package lirc-pluto ubuntu/lirc-pluto-0.1
 
 	#Package: mtx-pluto
-#	Build_Replacement_Package mtx-pluto ubuntu/mtx-1.3.11
+	Build_Replacement_Package mtx-pluto ubuntu/mtx-1.3.11
 
 	# lmce-asterisk
-#	Build_Replacement_Package lmce-asterisk src/lmce-asterisk
+	Build_Replacement_Package lmce-asterisk src/lmce-asterisk
 
 	# qhttpserver (for LinuxMCE NVR)
-	Build_Replacement_Package qhttpserver external/qhttpserver
-	dpkg -i ${scm_dir}/external/libqhttpserver*.deb
+#	Build_Replacement_Package qhttpserver external/qhttpserver
+#	dpkg -i ${scm_dir}/external/libqhttpserver*.deb
 
-	##Package: raspi2png
-#	#if [[ "$arch" == "armhf" ]]; then
-#	#	Build_Replacement_Package raspi2png external/raspi2png
-#	#fi
+	#Package: raspi2png
+#	if [[ "$arch" == "armhf" ]]; then
+#		Build_Replacement_Package raspi2png external/raspi2png
+#	fi
 
 	if [[ "$arch" != "armhf" ]]; then
 		#Package: linux-image-diskless
@@ -384,6 +384,7 @@ function Build_Replacements_ubuntu_trusty
 		Update_Changed_Since_Last_Build "$dir_"
 		popd
 	fi
+	DEBIAN_FRONTEND="noninteractive" dpkg -i ${scm_dir}/external/ola*.deb
 
 	#Package: squeezelite-1.8
 	Build_Replacement_Package squeezelite ubuntu/squeezelite-1.8

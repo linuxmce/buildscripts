@@ -47,7 +47,6 @@ libfaad-dev
 libflac-dev
 libftdi-dev
 libfuse-dev
-libgl1-mesa-dev-lts-vivid
 libglade2-dev
 libgnome2-dev
 libgnomeui-dev
@@ -218,9 +217,9 @@ libprotoc-dev
 libmpg123-dev
 libsoxr-dev
 portaudio19-dev
-asterisk asterisk-dev
+asterisk
+asterisk-dev
 dh-exec
-
 libcrystalhd-dev
 libclass-dbi-perl
 libnet-upnp-perl
@@ -241,5 +240,25 @@ libcdio-cdda-dev
 libcdio-paranoia-dev
 libass-dev
 libxml-xpath-perl
+autogen
+dkms
+gsoap
+libgsoap-dev
+libvlc-dev
+libshairport-dev
+libplist-dev
+libjsoncpp-dev
+fastjar
+indent
+libpq-dev
+libow-dev
+libsdl2-dev
+libsdl2-2.0-0
+libegl1-mesa-dev
+libgles2-mesa-dev
+libsdl2-ttf-dev
+libsdl2-image-dev
+libqjson-dev
+qtchooser
+qt5-default
 
-autogen dkms

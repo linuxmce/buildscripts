@@ -212,3 +212,5 @@ indent
 libvorbis-dev
 default-libmysqlclient-dev
 libopenzwave1.5-dev
+
+libxine2-dev

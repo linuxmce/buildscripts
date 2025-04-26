@@ -71,6 +71,11 @@ function build_main_debs() {
 					RepositorySource=25
 					Main_Version='2.0.0.47.'
 					exclude_list=$exclude_list,673,674 # lmce game player
+					exclude_list=$exclude_list,826,827 # ago-control bridge - obsolete
+
+					exclude_list=$exclude_list,858,859 # qorbitrer core gl - need to figure build-packages
+
+
 					case "${arch}" in
 						"armhf")
 							exclude_list=$exclude_list,452,453 # IRTrans - no armhf .so
@@ -78,6 +83,7 @@ function build_main_debs() {
 							exclude_list=$exclude_list,682,683 # mame
 							;;
 						"amd64")
+							exclude_list=$exclude_list,829,830 # omx player
 							exclude_list=$exclude_list,879,881 # qorbiter android
 							;;
 						"i386")
