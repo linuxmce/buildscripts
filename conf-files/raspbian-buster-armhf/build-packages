@@ -214,3 +214,6 @@ default-libmysqlclient-dev
 libopenzwave1.5-dev
 
 libxine2-dev
+
+libshairport-dev
+
