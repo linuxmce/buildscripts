@@ -421,9 +421,8 @@ function Build_Replacements_ubuntu_trusty
 	#Package: logitechmediaserver-7.8.1
 	Build_Replacement_Package logitechmediaserver external/logitechmediaserver-7.8.1
 
-# Temp disable as it just takes too much time to build.
-#	# mythtv
-#	Build_Replacement_Package myth ubuntu/mythtv-0.27.5+fixes.20150921.fbd5ef3
+	# mythtv
+	Build_Replacement_Package myth ubuntu/mythtv-0.27.5+fixes.20150921.fbd5ef3
 
 #	# ZFS
 #	Build_Replacement_Package mountall ubuntu/mountall-2.53
