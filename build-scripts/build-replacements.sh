@@ -340,7 +340,7 @@ function Build_Replacements_ubuntu_trusty
 
 	#Package: platform for libcec
 	Build_Replacement_Package platform ubuntu/platform-1.0.10
-	dpkg -i ${replacements_dir}/libplatform1.deb
+	dpkg -i ${replacements_dir}/libplatform*.deb
 
 	#Package: libcec
 	Build_Replacement_Package cec ubuntu/libcec-3.0.1
