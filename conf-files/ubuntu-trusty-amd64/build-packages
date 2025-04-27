@@ -121,7 +121,6 @@ nasm
 patch
 po4a
 quilt
-ruby-dev
 sgmltools-lite
 sharutils
 squashfs-tools
