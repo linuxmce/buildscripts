@@ -167,8 +167,6 @@ function build_main_debs() {
 							: ;;
 					esac
 					;;
-			esac
-			;;
 				"noble")
 					Distro_ID="27"
 					RepositorySource=25
