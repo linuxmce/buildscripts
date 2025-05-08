@@ -55,6 +55,11 @@ case "${flavor}" in
                                 RepositorySource=25
 				Main_Version="2.0.0.48."
                                 ;;
+                        "noble")
+                                Distro_ID="27"
+                                RepositorySource=25
+				Main_Version="2.0.0.48."
+                                ;;
                 esac
                 ;;
         "raspbian")

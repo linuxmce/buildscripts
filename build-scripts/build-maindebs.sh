@@ -169,6 +169,43 @@ function build_main_debs() {
 					;;
 			esac
 			;;
+				"noble")
+					Distro_ID="27"
+					RepositorySource=25
+					Main_Version='2.0.0.48.'
+					exclude_list=$exclude_list,673,674 # lmce game player - fails to build
+					exclude_list=$exclude_list,682,683 # mame - fails to build
+					exclude_list=$exclude_list,879,881 # qorbiter android - no sdk/ndk
+					exclude_list=$exclude_list,826,827 # ago-control bridge - ago control no longer exists
+
+					exclude_list=$exclude_list,307,335 # Generic Serial Device - ruby 1.8 no longer available
+					exclude_list=$exclude_list,498,499 # Simplephone - needs TLC, domain field added to auth calls, and more
+
+					exclude_list=$exclude_list,871,872 # CEC_Adaptor - lib updates
+					exclude_list=$exclude_list,780,781 # LMCE media-tagging - qt issues - no qt5?
+					exclude_list=$exclude_list,812,813 # Advanced IP Camera - gsoap compile issues
+					exclude_list=$exclude_list,914,917 # LMCE Cloud Interface
+					exclude_list=$exclude_list,405,406 # IRTrans - missing variable from library
+					exclude_list=$exclude_list,452,453 # IRTrans Wrapper - missing variable from library
+					exclude_list=$exclude_list,772,773 # EIB - missing lib from replacements
+					exclude_list=$exclude_list,842,843 # DLNA
+					exclude_list=$exclude_list,858,859 # qorbitrer core gl
+
+					#exclude_list=$exclude_list,405,406 # UpdateMedia - Exiv2 missing variable
+					#exclude_list=$exclude_list,529,530 # HAL
+					#exclude_list=$exclude_list,931,932 # LMCE Media Identifier
+					#exclude_list=$exclude_list,505,506 # Pluto ZWave - change in namespace fixed
+
+					case "${arch}" in
+						"armhf")
+							exclude_list=$exclude_list,452,453 # IRTrans - no armhf .so
+							: ;;
+						"amd64")
+							: ;;
+					esac
+					;;
+			esac
+			;;
 		"raspbian")
 			#FIXME Hackozaurus for ubuntu-diskless-tools
 			mkdir -p /home/DisklessFS/
