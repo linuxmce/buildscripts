@@ -13,7 +13,6 @@ devscripts
 dh-make
 dmsetup
 docbook-utils
-dpatch
 dpkg-dev
 dpkg-repack
 fakeroot
@@ -58,7 +57,6 @@ libimlib2-dev
 libirman-dev
 libjpeg-dev
 liblinphone-dev
-liblircclient-dev
 libmad0-dev
 libmediastreamer-dev
 libmodplug-dev
