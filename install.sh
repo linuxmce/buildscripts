@@ -11,7 +11,7 @@ Arch="$(apt-config dump | grep '^APT::Architecture ' | sed  's/.* "\(.*\)";$/\1/
 # Install default config files
 echo "Installing Default Configs For $Flavor-$Distro-$Arch"
 rm -f "/etc/lmce-build"
-ln -s "$(pwd)/conf-files/${Flavor}-${Distro}-${Arch}/" "/etc/lmce-build"
+ln -s "$(pwd)/conf-files/${Flavor}-${Distro}-${Arch}" "/etc/lmce-build"
 
 echo "Creating symlink /usr/local/lmce-build to ${pwd}"
 rm -f "/usr/local/lmce-build"
