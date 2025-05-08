@@ -184,6 +184,17 @@ function Build_Replacements_Common_ubuntu
 	fi
 }
 
+function Build_Replacements_ubuntu_noble
+{
+	#  It needs to be mentioned that these packages build prior
+	#  to the general ubuntu packages.  If anything here depends
+	#  on something that builds in the general ubuntu section,
+	#  then that package build needs to move to this section,
+	#  prior to any packages that require it.  -- TODO: xine
+
+	mkdir -pv "$replacements_dir"
+}
+
 function Build_Replacements_ubuntu_jammy
 {
 	#  It needs to be mentioned that these packages build prior
