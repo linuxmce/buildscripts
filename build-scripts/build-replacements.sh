@@ -89,14 +89,14 @@ function Build_Replacement_Package
 
 function Build_Replacements_Common_all
 {
-	Build_Replacement_Package lmce-sample-media extra/sample_media
+	Build_Replacement_Package lmce-sample-media assets/sample_media
 
-	Build_Replacement_Package lmce-avwizard-sounds extra/avwizard-sounds
+	Build_Replacement_Package lmce-avwizard-sounds assets/avwizard-sounds
 
-	Build_Replacement_Package video-wizard-videos extra/video-wizard-videos
+	Build_Replacement_Package video-wizard-videos assets/video-wizard-videos
 
-	Build_Replacement_Package lmce-skins extra/graphics
-	cp -fr ${scm_dir}/extra/lmce-avwizard-skin* "${replacements_dir}"
+	Build_Replacement_Package lmce-avwizard-skin assets/graphics
+	#cp -fr ${scm_dir}/assets/lmce-avwizard-skin* "${replacements_dir}"
 }
 
 function Build_Replacements_Common_ubuntu
