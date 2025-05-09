@@ -35,9 +35,6 @@ Clone_Git() {
 		DisplayMessage "Cloning ${git_url} into ${scm_dir}"
 		git clone --recursive ${git_url} ${scm_dir} || Error "Failed to clone ${git_url}"
 	popd
-	pushd ${scm_dir}
-		Pull_SubModules
-	popd
 
 	if [[ "$no_clean_scm" != "true" ]] ; then
 		cp -R ${scm_dir} ${scm_dir}-last

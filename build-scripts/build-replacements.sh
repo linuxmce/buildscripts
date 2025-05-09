@@ -95,8 +95,8 @@ function Build_Replacements_Common_all
 
 	Build_Replacement_Package video-wizard-videos assets/video-wizard-videos
 
-	Build_Replacement_Package lmce-avwizard-skin assets/graphics
-	#cp -fr ${scm_dir}/assets/lmce-avwizard-skin* "${replacements_dir}"
+	Build_Replacement_Package lmce-skins assets/graphics
+	cp -fr ${scm_dir}/assets/lmce-avwizard-skin* "${replacements_dir}"
 }
 
 function Build_Replacements_Common_ubuntu
