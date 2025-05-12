@@ -268,4 +268,4 @@ qtchooser
 qt5-default
 libxine2-dev
 libxine2-bin
-
+libgd-dev
