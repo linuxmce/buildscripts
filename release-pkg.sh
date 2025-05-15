@@ -9,6 +9,9 @@ make_jobs=""
 # set NUMCORES=X in /etc/lmce-build/builder.conf to enable multi-job builds
 [[ -n "$NUM_CORES" ]] && [[ 1 -lt "$NUM_CORES" ]] && make_jobs="-j $NUM_CORES"
 
+MKR_OPTS=""
+if [ "$skip_packaging" ] ; then MKR_OPTS="$MKR_OPTS -c"; fi
+
 case "${flavor}" in
         "ubuntu")
 		Main_Version="2.0.0.44."
@@ -81,6 +84,15 @@ case "${flavor}" in
                         ;;
 		esac
 		;;
+        "debian")
+                case "${build_name}" in
+                        "bookworm")
+                        Distro_ID="27"
+                        RepositorySource=25
+			Main_Version="2.0.0.48."
+                        ;;
+		esac
+		;;
 esac
 
 export SNR_CPPFLAGS="$compile_defines"
@@ -112,5 +124,5 @@ mysql $PLUTO_BUILD_CRED -D 'pluto_main_build' -e "$Q"
 create_version_h ${scm_dir} . ${Main_Version} $GITrevision
 
 # Compile the packages
-arch=$arch "${mkr_dir}/MakeRelease" $make_jobs -R "$GITrevision" $PLUTO_BUILD_CRED -O "$out_dir" -D 'pluto_main_build' -o "$Distro_ID" -r "$RepositorySource" -m 1,1176 -k "$1" -s "${scm_dir}" -n / -d
+arch=$arch "${mkr_dir}/MakeRelease" $make_jobs -R "$GITrevision" $PLUTO_BUILD_CRED -O "$out_dir" -D 'pluto_main_build' -o "$Distro_ID" -r "$RepositorySource" -m 1,1176 -k "$1" -s "${scm_dir}" -n / -d $MKR_OPTS
 

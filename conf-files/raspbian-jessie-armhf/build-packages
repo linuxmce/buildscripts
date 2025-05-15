@@ -99,7 +99,6 @@ libstdc++6
 libswscale-dev
 libtag1-dev
 libtcltk-ruby
-libtiff4-dev
 libtheora-dev
 libtool
 libtwolame-dev
@@ -122,12 +121,8 @@ libxv-dev
 libxvmc-dev
 libxxf86vm-dev
 libzvbi-dev
-linux-headers-3.13-1-rpi
-linux-image-3.13-1-rpi
-linux-source-3.13
 lirc
 module-assistant
-mysql-client
 nasm
 patch
 po4a
@@ -139,7 +134,6 @@ sharutils
 squashfs-tools
 subversion
 swig
-tcl8.6-dev
 texi2html
 texinfo
 transfig
@@ -187,8 +181,6 @@ libtcl8.5
 libqpidmessaging2-dev
 libqpidcommon2-dev
 libqpidtypes1-dev
-libqhttpserver-dev
-libdvdid0
 libmpg123-dev
 libsoxr-dev
 portaudio19-dev
@@ -214,7 +206,6 @@ libcdio-cdda-dev
 libcdio-paranoia-dev
 libass-dev
 libxml-xpath-perl
-libcec-platform-dev
 cmake
 libfstrcmp-dev
 libxslt1-dev
@@ -224,3 +215,4 @@ libraspberrypi-dev
 dh-systemd
 libsystemd-daemon-dev
 
+libtiff5-dev

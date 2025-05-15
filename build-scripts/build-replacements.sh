@@ -87,6 +87,44 @@ function Build_Replacement_Package
 	fi
 }
 
+install_debs_if_needed() {
+    local deb file pkg_name
+    local to_install=()
+
+    for deb in "$@"; do
+        # Expand wildcards
+        for file in $deb; do
+            if [[ -f "$file" ]]; then
+                pkg_name=$(dpkg-deb --field "$file" Package 2>/dev/null)
+                if [[ -z "$pkg_name" ]]; then
+                    echo "Unable to extract package name from $file"
+                    continue
+                fi
+
+                if dpkg -s "$pkg_name" &>/dev/null; then
+                    echo "Package '$pkg_name' already installed, skipping: $file"
+                else
+                    echo "Package '$pkg_name' needs to be installed: $file"
+                    to_install+=("$file")
+                fi
+            else
+                echo "No such file: $file"
+            fi
+        done
+    done
+
+    if [[ ${#to_install[@]} -gt 0 ]]; then
+	DisplayMessage "Installing ${#to_install[@]} package(s)"
+        echo "Installing ${#to_install[@]} package(s):"
+        printf ' - %s\n' "${to_install[@]}"
+        dpkg -i "${to_install[@]}"
+	echo "Fixing any missing dependencies..."
+	apt-get install -f -y
+    else
+        echo "All specified packages are already installed."
+    fi
+}
+
 function Build_Replacements_Common_all
 {
 	Build_Replacement_Package lmce-sample-media assets/sample_media
@@ -610,6 +648,63 @@ function Build_Replacements_ubuntu_bionic
 
 }
 
+function Build_Replacements_Common_debian
+{
+	#Package: dvdid
+	Build_Replacement_Package dvdid external/dvdid-0.2.0a
+#	install_debs_if_needed "${scm_dir}/external/libdvdid*.deb"
+	dpkg -i ${scm_dir}/external/libdvdid*.deb
+
+	#Package: pthsem for bcusdk
+	pushd 	${scm_dir}/external/pthsem-2.0.8 ; autoreconf -i ; popd
+	make_jobs="" Build_Replacement_Package pthsem external/pthsem-2.0.8
+#	install_debs_if_needed "${scm_dir}/external/libpthsem-dev*.deb"  "${scm_dir}/external/libpthsem20*.deb"
+	dpkg -i ${scm_dir}/external/libpthsem-dev*.deb  ${scm_dir}/external/libpthsem20*.deb
+
+	#Package: bcusdk (eib)
+	Build_Replacement_Package eib external/bcusdk-0.0.5
+#	install_debs_if_needed "${scm_dir}/external/libeibclient*.deb"
+	dpkg -i ${scm_dir}/external/libeibclient*.deb
+#	cp -fr ${scm_dir}/external/*eib*.deb ${replacements_dir}
+
+	#Package: mbrola
+	Build_Replacement_Package mbrola ubuntu/mbrola-3.01h+1
+
+	#Package: lmce-core-locator
+	Build_Replacement_Package core-locator src/Core/locator
+
+	#Package: tee-pluto
+	Build_Replacement_Package tee-pluto misc_utils/tee-pluto
+
+#	# qhttpserver (for LinuxMCE NVR)
+#	Build_Replacement_Package libqhttpserver external/qhttpserver
+#	cp ${scm_dir}/external/libqhttpserver*.deb "${replacements_dir}"
+
+	#Package: raspi2png
+	if [[ "$arch" == "armhf" ]]; then
+		Build_Replacement_Package raspi2png external/raspi2png
+	fi
+}
+
+function Build_Replacements_debian_bookworm
+{
+	#  It needs to be mentioned that these packages build prior
+	#  to the general ubuntu packages.  If anything here depends
+	#  on something that builds in the general ubuntu section,
+	#  then that package build needs to move to this section,
+	#  prior to any packages that require it.  -- TODO: xine
+
+	mkdir -pv "$replacements_dir"
+
+# libopenzwave1.6 in debian repo
+#	# Open ZWave library
+#	ver_split="-" Build_Replacement_Package zwave ubuntu/open-zwave-1.5
+#	dpkg -i ${scm_dir}/ubuntu/libopenzwave*deb
+#	cp ${scm_dir}/ubuntu/*zwave*.deb "${replacements_dir}"
+#	cp ${scm_dir}/ubuntu/*zwave*.changes "${replacements_dir}"
+
+}
+
 function Build_Replacements_Common_raspbian
 {
 	#Package: pthsem for bcusdk
@@ -618,8 +713,9 @@ function Build_Replacements_Common_raspbian
 	dpkg -i ${scm_dir}/external/libpthsem-dev*.deb  ${scm_dir}/external/libpthsem20*.deb
 
 	#Package: bcusdk (eib)
-	Build_Replacement_Package bcusdk external/bcusdk-0.0.5
-	cp -fr ${scm_dir}/external/*eib*.deb ${replacements_dir}
+	Build_Replacement_Package eib external/bcusdk-0.0.5
+	dpkg -i ${scm_dir}/external/libeibclient*.deb
+#	cp -fr ${scm_dir}/external/*eib*.deb ${replacements_dir}
 
 	#Package: mbrola
 	Build_Replacement_Package mbrola ubuntu/mbrola-3.01h+1

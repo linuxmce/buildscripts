@@ -28,6 +28,9 @@ if [ "$sql_build_user" ] ; then MYSQL_BUILD_CRED="$MYSQL_BUILD_CRED -u$sql_build
 if [ "$sql_build_pass" ] ; then MYSQL_BUILD_CRED="$MYSQL_BUILD_CRED -p$sql_build_pass"; fi
 export MYSQL_BUILD_CRED
 
+MKR_OPTS=""
+if [ "$skip_packaging" ] ; then MKR_OPTS="$MKR_OPTS -c"; fi
+
 export SNR_CPPFLAGS="$compile_defines"
 
 function build_main_debs() {
@@ -72,7 +75,6 @@ function build_main_debs() {
 					Main_Version='2.0.0.47.'
 					exclude_list=$exclude_list,673,674 # lmce game player
 					exclude_list=$exclude_list,826,827 # ago-control bridge - obsolete
-
 					exclude_list=$exclude_list,858,859 # qorbitrer core gl - need to figure build-packages
 
 
@@ -96,12 +98,6 @@ function build_main_debs() {
 					Distro_ID="23"
 					RepositorySource=25
 					Main_Version='2.0.0.48.'
-
-					#should be building but not...??
-					exclude_list=$exclude_list,307,335 # Generic Serial Device - ruby 1.8 no longer available ???
-					exclude_list=$exclude_list,498,499 # Simplephone - needs TLC, domain field added to auth calls, and more ???
-					exclude_list=$exclude_list,505,506 # Pluto ZWave - change in namespace fixed for jammy - maybe messed up xenial? or trusty?
-					exclude_list=$exclude_list,772,773 # EIB - missing lib from replacements
 
 					#definitely not building
 					exclude_list=$exclude_list,673,674 # lmce game player - fails to build
@@ -147,17 +143,10 @@ function build_main_debs() {
 					exclude_list=$exclude_list,871,872 # CEC_Adaptor - lib updates
 					exclude_list=$exclude_list,780,781 # LMCE media-tagging - qt issues - no qt5?
 					exclude_list=$exclude_list,812,813 # Advanced IP Camera - gsoap compile issues
-					exclude_list=$exclude_list,914,917 # LMCE Cloud Interface
 					exclude_list=$exclude_list,405,406 # IRTrans - missing variable from library
 					exclude_list=$exclude_list,452,453 # IRTrans Wrapper - missing variable from library
-					exclude_list=$exclude_list,772,773 # EIB - missing lib from replacements
 					exclude_list=$exclude_list,842,843 # DLNA
 					exclude_list=$exclude_list,858,859 # qorbitrer core gl
-
-					#exclude_list=$exclude_list,405,406 # UpdateMedia - Exiv2 missing variable
-					#exclude_list=$exclude_list,529,530 # HAL
-					#exclude_list=$exclude_list,931,932 # LMCE Media Identifier
-					#exclude_list=$exclude_list,505,506 # Pluto ZWave - change in namespace fixed
 
 					case "${arch}" in
 						"armhf")
@@ -168,7 +157,7 @@ function build_main_debs() {
 					esac
 					;;
 				"noble")
-					Distro_ID="27"
+					Distro_ID="21"
 					RepositorySource=25
 					Main_Version='2.0.0.48.'
 					exclude_list=$exclude_list,673,674 # lmce game player - fails to build
@@ -179,20 +168,14 @@ function build_main_debs() {
 					exclude_list=$exclude_list,307,335 # Generic Serial Device - ruby 1.8 no longer available
 					exclude_list=$exclude_list,498,499 # Simplephone - needs TLC, domain field added to auth calls, and more
 
-					exclude_list=$exclude_list,871,872 # CEC_Adaptor - lib updates
-					exclude_list=$exclude_list,780,781 # LMCE media-tagging - qt issues - no qt5?
+					exclude_list=$exclude_list,780,781 # LMCE media-tagging - no qjson - deprecated. need replacement
 					exclude_list=$exclude_list,812,813 # Advanced IP Camera - gsoap compile issues
-					exclude_list=$exclude_list,914,917 # LMCE Cloud Interface
 					exclude_list=$exclude_list,405,406 # IRTrans - missing variable from library
-					exclude_list=$exclude_list,452,453 # IRTrans Wrapper - missing variable from library
-					exclude_list=$exclude_list,772,773 # EIB - missing lib from replacements
-					exclude_list=$exclude_list,842,843 # DLNA
+					exclude_list=$exclude_list,452,453 # IRTrans Wrapper - missing variable from library					exclude_list=$exclude_list,772,773 # EIB - missing lib from replacements
+					exclude_list=$exclude_list,842,843 # DLNA -pkgs on trusty/xenial missing compat for jammy/noble/bookworm
 					exclude_list=$exclude_list,858,859 # qorbitrer core gl
 
-					#exclude_list=$exclude_list,405,406 # UpdateMedia - Exiv2 missing variable
-					#exclude_list=$exclude_list,529,530 # HAL
-					#exclude_list=$exclude_list,931,932 # LMCE Media Identifier
-					#exclude_list=$exclude_list,505,506 # Pluto ZWave - change in namespace fixed
+					exclude_list=$exclude_list,340,421 # Pluto LIRC DCE Wrapper
 
 					case "${arch}" in
 						"armhf")
@@ -245,8 +228,44 @@ function build_main_debs() {
 					;;
 			esac
 			;;
-	esac
 
+		"debian")
+			#FIXME Hackozaurus for ubuntu-diskless-tools
+			mkdir -p /home/DisklessFS/
+		        diskless_image_name="PlutoMD_Debootstraped-$flavor-$build_name-$arch.tar.bz2"
+#			cp "${diskless_dir}/$diskless_image_name" /home/DisklessFS
+
+			case "${build_name}" in
+				"bookworm")
+					Distro_ID="27"
+					#RepositorySource=23
+					RepositorySource=23
+					Main_Version='2.0.0.48.'
+					exclude_list=$exclude_list,673,674 # lmce game player - fails to build
+					exclude_list=$exclude_list,682,683 # mame - fails to build
+					exclude_list=$exclude_list,879,881 # qorbiter android - no sdk/ndk
+					exclude_list=$exclude_list,826,827 # ago-control bridge - ago control no longer exists
+
+					exclude_list=$exclude_list,307,335 # Generic Serial Device - ruby 1.8 no longer available
+					exclude_list=$exclude_list,498,499 # Simplephone - needs TLC, domain field added to auth calls, and more
+
+					exclude_list=$exclude_list,780,781 # LMCE media-tagging - no qjson - deprecated. need replacement
+					exclude_list=$exclude_list,812,813 # Advanced IP Camera - gsoap compile issues
+					exclude_list=$exclude_list,452,453 # IRTrans Wrapper - std::byte interfering with local byte in remote.h
+					exclude_list=$exclude_list,842,843 # DLNA
+					exclude_list=$exclude_list,858,859 # qorbitrer core gl
+
+					case "${arch}" in
+						"armhf" | "arm64")
+							exclude_list=$exclude_list,452,453 # IRTrans - no armhf .so
+							: ;;
+						"amd64")
+							: ;;
+					esac
+					;;
+			esac
+			;;
+	esac
 	# Set version of packages to todays date, plus 00:19 as time
 	Q="Update Version Set VersionName= concat('$Main_Version',substr(now()+0,1,12),'+$GITrevision') Where PK_Version = 1;"
 	mysql $PLUTO_BUILD_CRED -D 'pluto_main_build' -e "$Q"
@@ -254,8 +273,8 @@ function build_main_debs() {
 	create_version_h ${scm_dir} . ${Main_Version} $GITrevision
 
 	# Compile the packages
-	echo "\"${mkr_dir}/MakeRelease\" $make_jobs -a -R \"$GITrevision\" $PLUTO_BUILD_CRED -O \"$out_dir\" -D 'pluto_main_build' -o \"$Distro_ID\" -r \"$RepositorySource\" -m 1,1176 -K \"$exclude_list\" -s \"${scm_dir}\" -n / -d"
-	arch=$arch "${mkr_dir}/MakeRelease" $make_jobs -a -R "$GITrevision" $PLUTO_BUILD_CRED -O "$out_dir" -D 'pluto_main_build' -o "$Distro_ID" -r "$RepositorySource" -m 1,1176 -K "$exclude_list" -s "${scm_dir}" -n / -d || Error "MakeRelease failed"
+	echo "\"${mkr_dir}/MakeRelease\" $make_jobs -a -R \"$GITrevision\" $PLUTO_BUILD_CRED -O \"$out_dir\" -D 'pluto_main_build' -o \"$Distro_ID\" -r \"$RepositorySource\" -m 1,1176 -K \"$exclude_list\" -s \"${scm_dir}\" -n / -d $MKR_OPTS"
+	arch=$arch "${mkr_dir}/MakeRelease" $make_jobs -a -R "$GITrevision" $PLUTO_BUILD_CRED -O "$out_dir" -D 'pluto_main_build' -o "$Distro_ID" -r "$RepositorySource" -m 1,1176 -K "$exclude_list" -s "${scm_dir}" -n / -d $MKR_OPTS || Error "MakeRelease failed"
 }
 
 

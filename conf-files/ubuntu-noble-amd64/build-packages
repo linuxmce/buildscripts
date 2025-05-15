@@ -166,7 +166,6 @@ libavahi-compat-libdnssd-dev
 libcdio-cdda-dev
 libcdio-paranoia-dev
 libass-dev
-libcec-dev
 libxml-xpath-perl
 dh-autoreconf
 libpq-dev
@@ -213,3 +212,6 @@ libjson-perl
 libdbd-mysql-perl
 libopenzwave1.6-dev
 ruby-dev
+libgd-dev
+libcec-dev
+libp8-platform-dev
