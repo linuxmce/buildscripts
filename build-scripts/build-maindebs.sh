@@ -97,7 +97,7 @@ function build_main_debs() {
 				"xenial")
 					Distro_ID="23"
 					RepositorySource=25
-					Main_Version='2.0.0.48.'
+					Main_Version='2.0.0.47.'
 
 					#definitely not building
 					exclude_list=$exclude_list,673,674 # lmce game player - fails to build
@@ -115,7 +115,7 @@ function build_main_debs() {
 				"bionic")
 					Distro_ID="24"
 					RepositorySource=25
-					Main_Version='2.0.0.48.'
+					Main_Version='2.0.0.47.'
 					exclude_list=$exclude_list,673,674 # lmce game player - fails to build
 					exclude_list=$exclude_list,682,683 # mame - fails to build
 					exclude_list=$exclude_list,879,881 # qorbiter android - no sdk/ndk
@@ -131,7 +131,7 @@ function build_main_debs() {
 				"jammy")
 					Distro_ID="27"
 					RepositorySource=25
-					Main_Version='2.0.0.48.'
+					Main_Version='2.0.0.47.'
 					exclude_list=$exclude_list,673,674 # lmce game player - fails to build
 					exclude_list=$exclude_list,682,683 # mame - fails to build
 					exclude_list=$exclude_list,879,881 # qorbiter android - no sdk/ndk
@@ -157,9 +157,9 @@ function build_main_debs() {
 					esac
 					;;
 				"noble")
-					Distro_ID="21"
+					Distro_ID="27"
 					RepositorySource=25
-					Main_Version='2.0.0.48.'
+					Main_Version='2.0.0.47.'
 					exclude_list=$exclude_list,673,674 # lmce game player - fails to build
 					exclude_list=$exclude_list,682,683 # mame - fails to build
 					exclude_list=$exclude_list,879,881 # qorbiter android - no sdk/ndk
@@ -171,7 +171,7 @@ function build_main_debs() {
 					exclude_list=$exclude_list,780,781 # LMCE media-tagging - no qjson - deprecated. need replacement
 					exclude_list=$exclude_list,812,813 # Advanced IP Camera - gsoap compile issues
 					exclude_list=$exclude_list,405,406 # IRTrans - missing variable from library
-					exclude_list=$exclude_list,452,453 # IRTrans Wrapper - missing variable from library					exclude_list=$exclude_list,772,773 # EIB - missing lib from replacements
+					exclude_list=$exclude_list,452,453 # IRTrans Wrapper - missing variable from library
 					exclude_list=$exclude_list,842,843 # DLNA -pkgs on trusty/xenial missing compat for jammy/noble/bookworm
 					exclude_list=$exclude_list,858,859 # qorbitrer core gl
 
@@ -218,7 +218,7 @@ function build_main_debs() {
 				buster)
 					Distro_ID="25"
 					RepositorySource=23
-					Main_Version='2.0.0.48.'
+					Main_Version='2.0.0.47.'
 					# not currently compatible
 					:
 
@@ -238,9 +238,9 @@ function build_main_debs() {
 			case "${build_name}" in
 				"bookworm")
 					Distro_ID="27"
-					#RepositorySource=23
+						#RepositorySource=23
 					RepositorySource=23
-					Main_Version='2.0.0.48.'
+					Main_Version='2.0.0.47.'
 					exclude_list=$exclude_list,673,674 # lmce game player - fails to build
 					exclude_list=$exclude_list,682,683 # mame - fails to build
 					exclude_list=$exclude_list,879,881 # qorbiter android - no sdk/ndk
