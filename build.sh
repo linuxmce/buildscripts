@@ -8,7 +8,7 @@ if [[ -f "$log_file" ]] ;then
 fi
 # Clean up old changes files from broken duploads, as well as any upload file.
 mkdir -p /var/lmce-build/replacements
-mkdir -p /var/www
+mkdir -p "$local_mirror_dir"
 pushd /var/lmce-build/replacements
 rm *.changes || :
 rm *.upload || :

@@ -42,7 +42,7 @@ function build_main_debs() {
 	# Clear the debs output directory
 	DisplayMessage "Cleaning MakeRelease debs output directory"
 	rm -rf "${out_dir}" || Error "Cannot clean MakeRelease debs output directory"
-	mkdir -p "${out_dir}" || Error "Cannot create MakeRelease debs output directory"
+	mkdir -p "${out_dir}/tmp" || Error "Cannot create MakeRelease debs output directory"
 	mkdir -p ${scm_dir}/src/bin
         mkdir -p ${scm_dir}/src/lib
 	DisplayMessage "Compiling and building packages"
@@ -275,6 +275,50 @@ function build_main_debs() {
 	# Compile the packages
 	echo "\"${mkr_dir}/MakeRelease\" $make_jobs -a -R \"$GITrevision\" $PLUTO_BUILD_CRED -O \"$out_dir\" -D 'pluto_main_build' -o \"$Distro_ID\" -r \"$RepositorySource\" -m 1,1176 -K \"$exclude_list\" -s \"${scm_dir}\" -n / -d $MKR_OPTS"
 	arch=$arch "${mkr_dir}/MakeRelease" $make_jobs -a -R "$GITrevision" $PLUTO_BUILD_CRED -O "$out_dir" -D 'pluto_main_build' -o "$Distro_ID" -r "$RepositorySource" -m 1,1176 -K "$exclude_list" -s "${scm_dir}" -n / -d $MKR_OPTS || Error "MakeRelease failed"
+
+
+##################
+################## HACKZILLA!!
+if [[ "$MAKE_DUMMY_INSTALL_PKGS" == "yes" ]]; then
+	DisplayMessage "Creating dummy packages for install testing."
+
+	Current_Version="$Main_Version$(date -u +%Y%m%d%H%M)+$GITrevision"
+	DisplayMessage "Current version: $Current_Version"
+
+	DisplayMessage $exclude_list
+	# Save the original IFS value
+	OLD_IFS=$IFS
+
+	# Temporarily set IFS to comma and parse items
+	IFS=',' read -ra item_array <<< "$exclude_list"
+	for item in "${item_array[@]}"; do
+	[[ "$item" -eq "0" ]] && continue;
+
+	Q="
+	SELECT DISTINCT Name 
+	FROM Package_Source 
+	INNER JOIN Package_Source_Compat ON FK_Package_Source = PK_Package_Source
+	INNER JOIN Package ON FK_Package = PK_Package
+	WHERE Package.IsSource = 0 
+	  AND FK_RepositorySource IN ($RepositorySource) 
+	  AND FK_Package = $item
+	  AND ((FK_OperatingSystem = 1 AND FK_Distro IS NULL) 
+	       OR FK_Distro = $Distro_ID 
+	       OR (FK_OperatingSystem IS NULL AND FK_Distro IS NULL))
+	"
+	pkg_name=$(mysql -A -N 'pluto_main_build' $PLUTO_BUILD_CRED -e "$Q")
+
+	if [[ -n "$pkg_name" ]]; then
+	    DisplayMessage "Creating dummy package: $item - $pkg_name in ${out_dir}/tmp/"
+		pushd "${out_dir}/tmp/"
+		#DisplayMessage $build_scripts_dir/build_debian_package.sh $pkg_name $Current_Version \"\" $arch \"dummy package for install testing\"
+		"$build_scripts_dir/build_debian_package.sh" "$pkg_name" "$Current_Version" "" "$arch" "dummy package for install testing"
+	popd
+	fi
+	done
+	# Restore original IFS
+	IFS=$OLD_IFS
+fi
 }
 
 
