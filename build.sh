@@ -7,9 +7,9 @@ if [[ -f "$log_file" ]] ;then
 	mv "$log_file" "$log_file.$(date '+%Y%m%d-%H%M%S')"
 fi
 # Clean up old changes files from broken duploads, as well as any upload file.
-mkdir -p /var/lmce-build/replacements
-mkdir -p "$local_mirror_dir"
-pushd /var/lmce-build/replacements
+mkdir -p "$replacements_dir"	# /var/lmce-build/replacements
+mkdir -p "$local_mirror_dir"	# /var/www (or /var/lmce-build/www in docker)
+pushd "$replacements_dir"	# /var/lmce-build/replacements
 rm *.changes || :
 rm *.upload || :
 popd
