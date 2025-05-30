@@ -63,7 +63,7 @@ libmodplug-dev
 libmp3lame-dev
 libmpcdec-dev
 libmysqlclient-dev
-libncursesw5-dev
+libncurses-dev
 libpcre3-dev
 libpostproc-dev
 libpulse-dev
