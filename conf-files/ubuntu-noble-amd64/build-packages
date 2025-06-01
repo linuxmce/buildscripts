@@ -215,4 +215,4 @@ ruby-dev
 libgd-dev
 libcec-dev
 libp8-platform-dev
-libncurses5
+libncurses6

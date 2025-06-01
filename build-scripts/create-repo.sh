@@ -38,6 +38,8 @@ function MoveDebs2Repo {
 		cp "${extras_dir}"/*.changes "$local_mirror_dir"
 	fi
 
+	remove_duplicate_debs "$local_mirror_dir"
+
 	# Generate the Packages files
 	DisplayMessage "Generating Packages / Packages.gz files"
 	pushd "$local_mirror_dir"
