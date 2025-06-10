@@ -173,9 +173,9 @@ function build_main_debs() {
 					exclude_list=$exclude_list,405,406 # IRTrans - missing variable from library
 					exclude_list=$exclude_list,452,453 # IRTrans Wrapper - missing variable from library
 					exclude_list=$exclude_list,842,843 # DLNA -pkgs on trusty/xenial missing compat for jammy/noble/bookworm
-					exclude_list=$exclude_list,858,859 # qorbitrer core gl
-
 					exclude_list=$exclude_list,340,421 # Pluto LIRC DCE Wrapper
+
+					#exclude_list=$exclude_list,858,859 # qorbitrer core gl
 
 					# MakeRelease doesn't build this package, but so much of asterisk is incompatible (chan_sccp obsolete now)
 					# We need to prevent asterisk from installing if possible.
