@@ -143,7 +143,6 @@ function build_main_debs() {
 					exclude_list=$exclude_list,871,872 # CEC_Adaptor - lib updates
 					exclude_list=$exclude_list,780,781 # LMCE media-tagging - qt issues - no qt5?
 					exclude_list=$exclude_list,812,813 # Advanced IP Camera - gsoap compile issues
-					exclude_list=$exclude_list,405,406 # IRTrans - missing variable from library
 					exclude_list=$exclude_list,452,453 # IRTrans Wrapper - missing variable from library
 					exclude_list=$exclude_list,842,843 # DLNA
 					exclude_list=$exclude_list,858,859 # qorbitrer core gl
@@ -170,7 +169,6 @@ function build_main_debs() {
 
 					exclude_list=$exclude_list,780,781 # LMCE media-tagging - no qjson - deprecated. need replacement
 					exclude_list=$exclude_list,812,813 # Advanced IP Camera - gsoap compile issues
-					exclude_list=$exclude_list,405,406 # IRTrans - missing variable from library
 					exclude_list=$exclude_list,452,453 # IRTrans Wrapper - missing variable from library
 					exclude_list=$exclude_list,842,843 # DLNA -pkgs on trusty/xenial missing compat for jammy/noble/bookworm
 					exclude_list=$exclude_list,340,421 # Pluto LIRC DCE Wrapper
