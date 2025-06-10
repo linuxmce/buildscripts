@@ -177,6 +177,11 @@ function build_main_debs() {
 
 					exclude_list=$exclude_list,340,421 # Pluto LIRC DCE Wrapper
 
+					# MakeRelease doesn't build this package, but so much of asterisk is incompatible (chan_sccp obsolete now)
+					# We need to prevent asterisk from installing if possible.
+					# This wont stop lmce-asterisk from building (its a replacement) buefully supet for now.
+					exclude_list=$exclude_list,920 # LinuxMCE Asterisk
+
 					case "${arch}" in
 						"armhf")
 							exclude_list=$exclude_list,452,453 # IRTrans - no armhf .so
@@ -279,6 +284,8 @@ function build_main_debs() {
 
 ##################
 ################## HACKZILLA!!
+################## This will create an empty, dummy package for any non-source package in the $exclude_list
+################## Install testing can take place without needing to disable packages in the database.
 if [[ "$MAKE_DUMMY_INSTALL_PKGS" == "yes" ]]; then
 	DisplayMessage "Creating dummy packages for install testing."
 
@@ -292,29 +299,29 @@ if [[ "$MAKE_DUMMY_INSTALL_PKGS" == "yes" ]]; then
 	# Temporarily set IFS to comma and parse items
 	IFS=',' read -ra item_array <<< "$exclude_list"
 	for item in "${item_array[@]}"; do
-	[[ "$item" -eq "0" ]] && continue;
+		[[ "$item" -eq "0" ]] && continue;
 
-	Q="
-	SELECT DISTINCT Name 
-	FROM Package_Source 
-	INNER JOIN Package_Source_Compat ON FK_Package_Source = PK_Package_Source
-	INNER JOIN Package ON FK_Package = PK_Package
-	WHERE Package.IsSource = 0 
-	  AND FK_RepositorySource IN ($RepositorySource) 
-	  AND FK_Package = $item
-	  AND ((FK_OperatingSystem = 1 AND FK_Distro IS NULL) 
-	       OR FK_Distro = $Distro_ID 
-	       OR (FK_OperatingSystem IS NULL AND FK_Distro IS NULL))
-	"
-	pkg_name=$(mysql -A -N 'pluto_main_build' $PLUTO_BUILD_CRED -e "$Q")
+		Q="
+		SELECT DISTINCT Name 
+		FROM Package_Source 
+		INNER JOIN Package_Source_Compat ON FK_Package_Source = PK_Package_Source
+		INNER JOIN Package ON FK_Package = PK_Package
+		WHERE Package.IsSource = 0 
+		  AND FK_RepositorySource IN ($RepositorySource) 
+		  AND FK_Package = $item
+		  AND ((FK_OperatingSystem = 1 AND FK_Distro IS NULL) 
+		       OR FK_Distro = $Distro_ID 
+		       OR (FK_OperatingSystem IS NULL AND FK_Distro IS NULL))
+		"
+		pkg_name=$(mysql -A -N 'pluto_main_build' $PLUTO_BUILD_CRED -e "$Q")
 
-	if [[ -n "$pkg_name" ]]; then
-	    DisplayMessage "Creating dummy package: $item - $pkg_name in ${out_dir}/tmp/"
-		pushd "${out_dir}/tmp/"
-		#DisplayMessage $build_scripts_dir/build_debian_package.sh $pkg_name $Current_Version \"\" $arch \"dummy package for install testing\"
-		"$build_scripts_dir/build_debian_package.sh" "$pkg_name" "$Current_Version" "" "$arch" "dummy package for install testing"
-	popd
-	fi
+		if [[ -n "$pkg_name" ]]; then
+			DisplayMessage "Creating dummy package: $item - $pkg_name in ${out_dir}/tmp/"
+			pushd "${out_dir}/tmp/"
+			#DisplayMessage $build_scripts_dir/build_debian_package.sh $pkg_name $Current_Version \"\" $arch \"dummy package for install testing\"
+			"$build_scripts_dir/build_debian_package.sh" "$pkg_name" "$Current_Version" "" "$arch" "dummy package for install testing"
+			popd
+		fi
 	done
 	# Restore original IFS
 	IFS=$OLD_IFS
