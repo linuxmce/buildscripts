@@ -191,9 +191,6 @@ libsdl2-mixer-dev
 libsdl2-net-dev
 libsdl2-ttf-dev
 libdbus-c++-dev
-qtdeclarative5-dev
-qtmultimedia5-dev
-qtscript5-dev
 libplist-dev
 libshairport-dev
 indent
@@ -216,3 +213,9 @@ libgd-dev
 libcec-dev
 libp8-platform-dev
 libncurses6
+qt5-qmake
+qtbase5-dev
+qtdeclarative5-dev
+qtmultimedia5-dev
+qtbase5-dev-tools
+qtscript5-dev
