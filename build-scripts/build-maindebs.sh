@@ -166,12 +166,12 @@ function build_main_debs() {
 
 					exclude_list=$exclude_list,307,335 # Generic Serial Device - ruby 1.8 no longer available
 					exclude_list=$exclude_list,498,499 # Simplephone - needs TLC, domain field added to auth calls, and more
-
-					exclude_list=$exclude_list,780,781 # LMCE media-tagging - no qjson - deprecated. need replacement
-					exclude_list=$exclude_list,812,813 # Advanced IP Camera - gsoap compile issues
-					exclude_list=$exclude_list,842,843 # DLNA -pkgs on trusty/xenial missing compat for jammy/noble/bookworm
 					exclude_list=$exclude_list,340,421 # Pluto LIRC DCE Wrapper
 
+					exclude_list=$exclude_list,812,813 # Advanced IP Camera - gsoap compile issues
+					exclude_list=$exclude_list,842,843 # DLNA -pkgs on trusty/xenial missing compat for jammy/noble/bookworm
+
+					#exclude_list=$exclude_list,780,781 # LMCE media-tagging - no qjson - deprecated. need replacement
 					#exclude_list=$exclude_list,452,453 # IRTrans Wrapper - missing variable from library
 					#exclude_list=$exclude_list,858,859 # qorbitrer core gl
 
